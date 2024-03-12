@@ -21,7 +21,7 @@ export const CalculatorButton = ({
       style={({pressed}) => ({
         ...globalStyles.button,
         backgroundColor: color,
-        opacity: pressed ? 0.6 : 1,
+        opacity: pressed ? 0.5 : 1,
         width: dobleSize ? 180 : 80,
       })}>
       <Text
