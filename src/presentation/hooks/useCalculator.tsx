@@ -93,6 +93,29 @@ export const useCalculator = () => {
     setLastNumber();
     lastOperation.current = Operation.division;
   };
+
+  const calculateResult = () => {
+    const number1 = Number(number);
+    const number2 = Number(previousNumber);
+
+    switch (lastOperation.current) {
+      case Operation.add:
+        setNumber(`${number2 + number1}`);
+        break;
+      case Operation.subtract:
+        setNumber(`${number2 - number1}`);
+        break;
+      case Operation.multiply:
+        setNumber(`${number2 * number1}`);
+        break;
+      case Operation.division:
+        setNumber(`${number2 / number1}`);
+        break;
+      default:
+        throw new Error('Invalid Operation');
+    }
+    setPrevioustNumber('0');
+  };
   return {
     //* Properties
     number,
@@ -107,5 +130,6 @@ export const useCalculator = () => {
     subtractOperation,
     multiplyOperation,
     divisionOperation,
+    calculateResult,
   };
 };

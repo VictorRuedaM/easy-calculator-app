@@ -15,6 +15,7 @@ export const CalculatorScreen = () => {
     multiplyOperation,
     divisionOperation,
     previousNumber,
+    calculateResult,
   } = useCalculator();
   return (
     <View style={globalStyles.calculatorContainer}>
@@ -135,7 +136,7 @@ export const CalculatorScreen = () => {
           color={colors.darkGray}
         />
         <CalculatorButton
-          onPress={() => null}
+          onPress={() => calculateResult()}
           label="="
           color={colors.lightGray}
           dobleSize={true}
