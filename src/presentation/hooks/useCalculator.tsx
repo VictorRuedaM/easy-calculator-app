@@ -7,6 +7,7 @@ enum Operation {
   division,
 }
 
+
 export const useCalculator = () => {
   const [number, setNumber] = useState('0');
   const [previousNumber, setPrevioustNumber] = useState('0');
