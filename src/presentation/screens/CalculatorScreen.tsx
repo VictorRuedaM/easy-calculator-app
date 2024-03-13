@@ -34,7 +34,7 @@ export const CalculatorScreen = () => {
             adjustsFontSizeToFit
             numberOfLines={1}
             style={globalStyles.subResult}>
-            {previousNumber === '0' ? ' ' : previousNumber}
+            {previousNumber}
           </Text>
         )}
       </View>
