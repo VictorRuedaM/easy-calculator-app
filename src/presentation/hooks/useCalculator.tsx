@@ -1,17 +1,33 @@
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 enum Operation {
-  add,
-  subtract,
-  multiply,
-  division,
+  add = '+',
+  subtract = '−',
+  multiply = 'x',
+  division = '÷',
+  percentage = '%',
 }
 
 export const useCalculator = () => {
+  const [formula, setFormula] = useState('');
   const [number, setNumber] = useState('0');
   const [previousNumber, setPrevioustNumber] = useState('0');
 
   const lastOperation = useRef<Operation>();
+
+  useEffect(() => {
+    if (lastOperation.current) {
+      const firstPart = formula.split(' ')[0];
+      setFormula(`${firstPart} ${lastOperation.current} ${number}`);
+    } else {
+      setFormula(number);
+    }
+  }, [number]);
+
+  useEffect(() => {
+    const subResult = calculateSubResult();
+    setPrevioustNumber(`${subResult}`);
+  }, [formula]);
 
   const buildNumber = (numberString: string) => {
     if (number.includes('.') && numberString === '.') return;
@@ -44,6 +60,8 @@ export const useCalculator = () => {
   const clean = () => {
     setNumber('0');
     setPrevioustNumber('0');
+    setFormula('0');
+    lastOperation.current = undefined;
   };
 
   const deleteOperation = () => {
@@ -69,6 +87,7 @@ export const useCalculator = () => {
   };
 
   const setLastNumber = () => {
+    calculateResult();
     if (number.endsWith('.')) {
       setPrevioustNumber(number.slice(0, -1));
     } else {
@@ -93,33 +112,45 @@ export const useCalculator = () => {
     setLastNumber();
     lastOperation.current = Operation.division;
   };
+  const percentageOperation = () => {
+    setLastNumber();
+    lastOperation.current = Operation.percentage;
+  };
 
   const calculateResult = () => {
-    const number1 = Number(number);
-    const number2 = Number(previousNumber);
+    const result = calculateSubResult();
+    setFormula(`${result}`);
+    lastOperation.current = undefined;
+    setPrevioustNumber('0');
+  };
 
-    switch (lastOperation.current) {
+  const calculateSubResult = (): number => {
+    const [value1, operator, value2] = formula.split(' ');
+    const number1 = Number(value1);
+    const number2 = Number(value2);
+
+    if (isNaN(number2)) return number1;
+
+    switch (operator) {
+      case Operation.percentage:
+        return (number1 / 100) * number2;
       case Operation.add:
-        setNumber(`${number2 + number1}`);
-        break;
+        return number1 + number2;
       case Operation.subtract:
-        setNumber(`${number2 - number1}`);
-        break;
+        return number1 - number2;
       case Operation.multiply:
-        setNumber(`${number2 * number1}`);
-        break;
+        return number1 * number2;
       case Operation.division:
-        setNumber(`${number2 / number1}`);
-        break;
+        return number1 / number2;
       default:
         throw new Error('Invalid Operation');
     }
-    setPrevioustNumber('0');
   };
   return {
     //* Properties
     number,
     previousNumber,
+    formula,
 
     //* Methods
     buildNumber,
@@ -130,6 +161,7 @@ export const useCalculator = () => {
     subtractOperation,
     multiplyOperation,
     divisionOperation,
+    percentageOperation,
     calculateResult,
   };
 };

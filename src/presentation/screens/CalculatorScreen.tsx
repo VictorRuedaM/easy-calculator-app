@@ -5,7 +5,6 @@ import {useCalculator} from '../hooks/useCalculator';
 
 export const CalculatorScreen = () => {
   const {
-    number,
     buildNumber,
     clean,
     deleteOperation,
@@ -14,8 +13,10 @@ export const CalculatorScreen = () => {
     subtractOperation,
     multiplyOperation,
     divisionOperation,
+    percentageOperation,
     previousNumber,
     calculateResult,
+    formula,
   } = useCalculator();
   return (
     <View style={globalStyles.calculatorContainer}>
@@ -24,7 +25,7 @@ export const CalculatorScreen = () => {
           adjustsFontSizeToFit
           numberOfLines={1}
           style={globalStyles.mainResult}>
-          {number}
+          {formula}
         </Text>
         <Text
           adjustsFontSizeToFit
@@ -50,12 +51,11 @@ export const CalculatorScreen = () => {
           onPress={() => deleteOperation()}
           label="&#9003;"
           color={colors.redDelete}
-          colorText={'black'}
         />
         <CalculatorButton
           onPress={() => divisionOperation()}
           label=" ÷ "
-          color={colors.orange}
+          color={colors.primaryButton}
         />
       </View>
       <View style={globalStyles.row}>
@@ -77,7 +77,7 @@ export const CalculatorScreen = () => {
         <CalculatorButton
           onPress={() => multiplyOperation()}
           label="x"
-          color={colors.orange}
+          color={colors.primaryButton}
         />
       </View>
       <View style={globalStyles.row}>
@@ -99,7 +99,7 @@ export const CalculatorScreen = () => {
         <CalculatorButton
           onPress={() => subtractOperation()}
           label="−"
-          color={colors.orange}
+          color={colors.primaryButton}
         />
       </View>
       <View style={globalStyles.row}>
@@ -121,7 +121,7 @@ export const CalculatorScreen = () => {
         <CalculatorButton
           onPress={() => addOperation()}
           label="+"
-          color={colors.orange}
+          color={colors.primaryButton}
         />
       </View>
       <View style={globalStyles.row}>
@@ -138,8 +138,12 @@ export const CalculatorScreen = () => {
         <CalculatorButton
           onPress={() => calculateResult()}
           label="="
-          color={colors.lightGray}
-          dobleSize={true}
+          color={colors.secundaryButton}
+        />
+        <CalculatorButton
+          onPress={() => percentageOperation()}
+          label="%"
+          color={colors.primaryButton}
         />
       </View>
     </View>
