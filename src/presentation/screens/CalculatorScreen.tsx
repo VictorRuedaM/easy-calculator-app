@@ -27,12 +27,16 @@ export const CalculatorScreen = () => {
           style={globalStyles.mainResult}>
           {formula}
         </Text>
-        <Text
-          adjustsFontSizeToFit
-          numberOfLines={1}
-          style={globalStyles.subResult}>
-          {previousNumber === '0' ? ' ' : previousNumber}
-        </Text>
+        {formula === previousNumber ? (
+          <Text style={globalStyles.subResult}></Text>
+        ) : (
+          <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            style={globalStyles.subResult}>
+            {previousNumber === '0' ? ' ' : previousNumber}
+          </Text>
+        )}
       </View>
       <View style={globalStyles.row}>
         <CalculatorButton
